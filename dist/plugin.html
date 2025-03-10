@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    let linkName = '';
+                    let linkDest = '';
+                    let linkPass = '';
+                    let isCreate
+
+                    switch(form.id) {
+                        case 'CreateLink':
+                            linkName = document.getElementById('Name').value;
+                            linkDest = document.getElementById('Destination').value;
+                            linkPass = document.getElementById('Password').value;
+                            isCreate = true
+                            break;
+                        case 'DeleteLink':
+                            linkName = document.getElementById('DelName').value;
+                            linkPass = document.getElementById('DelPassword').value;
+                            isCreate = false
+                            break;
+                    }
+
+                    // const url = new URL(window.location.href);
+                    // const baseUrl = new URL(`${url.protocol}//${url.host}/`);
+                    
+                    let url
+
+                    if (isCreate)
+                    {
+                        url = new URL(window.location.origin + '/url-shortener/create-link');
+                    }
+                    else
+                    {
+                        url  = new URL(window.location.origin + '/url-shortener/delete-link');
+                    }
+                    
+                    if (linkPass != '')
+                    {
+                        url.searchParams.append('auth', linkPass);
+                    }
+                    url.searchParams.append('link', linkName);
+                    if (isCreate)
+                    {
+                        url.searchParams.append('destination', linkDest);
+                    }
+                    
+                    request(url)
+                });
+            });
+
+            async function request(url)
+            {
+                try
+                {
+                    const response = await fetch(url.toString());
+                    const data = await response.text();
+                    alert(data)
+                } catch (error) {
+                    console.error('There was a problem with the fetch operation:', error);
+                    alert(`Error: ${error.message}`);
+                }
+            }
+        });
+    </script>
+    <style>
+        body {
+            background-color: #333;
+            color: whitesmoke;
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        button {
+            background-color: #23272A;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 5px;
+            cursor: pointer;
+            margin: 10px;
+            outline: 2px solid #555;
+            transition: transform 0.1s ease-in-out;
+            /* box-shadow: 0 0 0 2px rgba(0,123,255,.5); */
+        }
+        button:hover {
+            transform: scale(1.1);
+            background-color: #555;
+            outline: 2px solid #c7c7c7;
+        }
+        input {
+            background-color: #333;
+            color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+    <div id="forms">
+        <h1>Create link:</h1>
+        <form id="CreateLink">
+            <input type="text" id="Name" placeholder="Link name">
+            <input type="text" id="Destination" placeholder="Link Destination">
+            <input type="password" id="Password" placeholder="Create Password (if any)">
+            <button type="submit">Create</button>
+        </form>
+        <br>
+        <hr>
+        <h1>Delete link:</h1>
+        <form id="DeleteLink">
+            <input type="text" id="DelName" placeholder="Link name">
+            <input type="password" id="DelPassword" placeholder="Delete Password (if any)">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+</body>
+</html>
