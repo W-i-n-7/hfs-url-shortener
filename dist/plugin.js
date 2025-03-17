@@ -1,4 +1,4 @@
-exports.version = 1.0
+exports.version = 1.1
 exports.apiRequired = 11.6
 exports.description = "Make shortened URLs with HFS"
 exports.repo = "W-i-n-7/hfs-url-shortener"
@@ -189,6 +189,8 @@ exports.init = async api => {
                     {
                         ctx.query.link = '/' + ctx.query.link
                     }
+
+                    ctx.query.link = api.getConfig('linkPrefix') + ctx.query.link
 
                     if (deleteLink(ctx.query.link))
                     {
