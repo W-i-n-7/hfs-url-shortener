@@ -14,11 +14,11 @@ exports.config = {
                 type: 'string',
                 label: 'Link',
                 defaultValue: '/default-link',
-                helperText: 'Must start with a /\nThis url will redirect the user to the destionation url.'
+                helperText: 'Must start with a /\nThis url will redirect the user to the destination url.'
             },
             destination: {
                 type: 'string',
-                label: 'Destionation:',
+                label: 'Destination:',
                 defaultValue: 'https://example.com',
                 helperText: 'Where user gets redirected to.'
             }
