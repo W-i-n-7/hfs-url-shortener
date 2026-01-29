@@ -1,4 +1,4 @@
-exports.version = 1.1
+exports.version = 1.101
 exports.apiRequired = 11.6
 exports.description = "Make shortened URLs with HFS"
 exports.repo = "W-i-n-7/hfs-url-shortener"
